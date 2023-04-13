@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Service.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">testserveur (20 avr. 2022 01:29:47)</a> &gt; <a href="../../index.html" class="el_group">gestionstagiaire</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">serveur</a> &gt; <span class="el_source">Service.java</span></div><h1>Service.java</h1><pre class="source lang-java linenums">package serveur;
+import java.io.*;
+import java.net.*;
+import java.sql.*;
+import java.util.*;
+import javax.swing.JOptionPane;
+
+import entite.Etudiant;
+import entite.Filiere;
+import module.Connexion;
+public class Service implements Runnable  {
+private Socket s;
+private BufferedReader in;
+private ObjectOutputStream out;
+<span class="nc" id="L15">public Service(Socket s)</span>
+{
+<span class="nc" id="L17">    this.s=s;</span>
+    try {
+<span class="nc" id="L19">        in=new BufferedReader(new InputStreamReader(s.getInputStream()));</span>
+<span class="nc" id="L20">        out=new ObjectOutputStream(s.getOutputStream());</span>
+<span class="nc" id="L21">    } catch (IOException ex) {</span>
+<span class="nc" id="L22">        JOptionPane.showMessageDialog(null,ex.getMessage());</span>
+    }
+<span class="nc" id="L24">  }</span>
+@Override
+public void run()
+{ int c; String req;
+   ArrayList&lt;Filiere&gt; tf;
+   ArrayList&lt;Etudiant&gt; te;
+    try {
+<span class="nc" id="L31">        while(true)</span>
+        {
+<span class="nc" id="L33">     c=Integer.parseInt(in.readLine());</span>
+<span class="nc bnc" id="L34" title="All 2 branches missed.">     if(c==-1)</span>
+     {
+<span class="nc" id="L36">         tf=new ArrayList();</span>
+<span class="nc" id="L37">         req=&quot;select * from filiere&quot;;</span>
+<span class="nc" id="L38">         PreparedStatement ps= Connexion.getInstance().prepareStatement(req);</span>
+<span class="nc" id="L39">         ResultSet res=ps.executeQuery();</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">         while(res.next()) tf.add(new Filiere(res.getInt(1),res.getString(2)));</span>
+<span class="nc" id="L41">         out.writeObject(tf);</span>
+<span class="nc" id="L42">         out.flush();</span>
+<span class="nc" id="L43">     }</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">     else if(c==0)</span>
+     {
+<span class="nc" id="L46">        te=new ArrayList();</span>
+<span class="nc" id="L47">         req=&quot;select * from etudiant&quot;;</span>
+<span class="nc" id="L48">         PreparedStatement ps=Connexion.getInstance().prepareStatement(req);</span>
+<span class="nc" id="L49">         ResultSet res=ps.executeQuery();</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">         while(res.next()) te.add(new Etudiant(res.getInt(1),res.getString(2),res.getString(3)));</span>
+<span class="nc" id="L51">         out.writeObject(te);</span>
+<span class="nc" id="L52">         out.flush(); </span>
+<span class="nc" id="L53">     }</span>
+     else
+     {
+<span class="nc" id="L56">         te=new ArrayList();</span>
+<span class="nc" id="L57">         req=&quot;select * from etudiant where codef=?&quot;;</span>
+<span class="nc" id="L58">         PreparedStatement ps=Connexion.getInstance().prepareStatement(req);</span>
+<span class="nc" id="L59">         ps.setInt(1, c);</span>
+<span class="nc" id="L60">         ResultSet res=ps.executeQuery();</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">         while(res.next()) te.add(new Etudiant(res.getInt(1),res.getString(2),res.getString(3)));</span>
+<span class="nc" id="L62">         out.writeObject(te);</span>
+<span class="nc" id="L63">         out.flush();</span>
+         
+     }
+<span class="nc" id="L66">     Thread.sleep(1);</span>
+        }
+<span class="nc" id="L68">    } catch (Exception e) {</span>
+<span class="nc" id="L69">        JOptionPane.showMessageDialog(null,e.getMessage());</span>
+    }
+<span class="nc" id="L71">}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span>testserveur (20 avr. 2022 01:29:47)</div></body></html>

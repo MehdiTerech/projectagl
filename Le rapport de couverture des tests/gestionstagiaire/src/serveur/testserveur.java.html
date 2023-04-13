@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>testserveur.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">testserveur (20 avr. 2022 01:46:53)</a> &gt; <a href="../../index.html" class="el_group">gestionstagiaire</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">serveur</a> &gt; <span class="el_source">testserveur.java</span></div><h1>testserveur.java</h1><pre class="source lang-java linenums">package serveur;
+
+import static org.junit.Assert.*;
+
+import java.io.ObjectInputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.ArrayList;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import client.Client;
+import entite.Etudiant;
+import entite.Filiere;
+
+<span class="fc" id="L17">public class testserveur {</span>
+	private static Client cl;
+	ArrayList&lt;Filiere&gt; tf ;
+	ArrayList&lt;Etudiant&gt; te ;
+
+	@Before
+    public void setUp() {
+<span class="fc" id="L24">		cl =new Client(&quot;localhost&quot;,4000);</span>
+		
+<span class="fc" id="L26">    }</span>
+	@Test
+	public void testgetfilier() {
+<span class="fc" id="L29">		tf=cl.getFilieres();</span>
+<span class="fc" id="L30">		Filiere f = new Filiere(1,&quot;dsi&quot;) ;</span>
+<span class="fc" id="L31">		assertEquals(f.getCodef(), tf.get(0).getCodef());</span>
+		
+<span class="fc" id="L33">	}</span>
+	@Test
+	public void testgeetd() {
+<span class="fc" id="L36">		te=cl.getEtudiants(1);</span>
+<span class="fc" id="L37">		Etudiant etd = new Etudiant(1,&quot;brahim&quot;,&quot;elhamdi&quot;);</span>
+<span class="fc" id="L38">		assertEquals(etd.getCode(), te.get(0).getCode());</span>
+		
+<span class="fc" id="L40">	} </span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span>testserveur (20 avr. 2022 01:46:53)</div></body></html>

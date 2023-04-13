@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>Client.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">testserveur (20 avr. 2022 01:46:53)</a> &gt; <a href="../../index.html" class="el_group">gestionstagiaire</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">client</a> &gt; <span class="el_source">Client.java</span></div><h1>Client.java</h1><pre class="source lang-java linenums">package client;
+import entite.*;
+import java.io.IOException;
+import java.io.*;
+import java.net.*;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+/**
+*
+*
+* @author Client
+*/
+public class Client {
+private Socket s;
+private ObjectInputStream in;
+private PrintWriter out;
+/**
+ * instancier les flux d'e/s
+ * @param IP
+ * @param port
+ */
+<span class="fc" id="L22">    public Client(String IP,int port) {</span>
+    try {
+<span class="fc" id="L24">        s=new Socket(IP,port);</span>
+<span class="fc" id="L25">        in=new ObjectInputStream(s.getInputStream());</span>
+<span class="fc" id="L26">        out=new PrintWriter(s.getOutputStream(),true);</span>
+<span class="pc" id="L27">    } catch (IOException ex) {</span>
+<span class="nc" id="L28">        JOptionPane.showMessageDialog(null,ex.getMessage());</span>
+    }
+                
+<span class="fc" id="L31">    }</span>
+/**
+ * retourn toutes les etudiants 
+ * @return ArrayList&lt;Etudiant&gt;
+ */
+public ArrayList&lt;Etudiant&gt; getAllEtds()
+{
+<span class="nc" id="L38">	ArrayList&lt;Etudiant&gt; list =  new ArrayList();</span>
+    try {
+<span class="nc" id="L40">        out.println(0);</span>
+<span class="nc" id="L41">        list  = (ArrayList&lt;Etudiant&gt;)in.readObject() ;</span>
+<span class="nc" id="L42">        return list ;</span>
+<span class="nc" id="L43">    } catch (Exception e) {</span>
+<span class="nc" id="L44">        return list ;</span>
+    }
+}
+/**
+ * returne touts
+ *  les filiers 
+ * @return ArrayList&lt;Filiere&gt;
+ */
+public ArrayList&lt;Filiere&gt; getFilieres()
+{
+<span class="fc" id="L54">	ArrayList&lt;Filiere&gt; list = new ArrayList() ;</span>
+    try {
+<span class="fc" id="L56">        out.println(-1);</span>
+<span class="fc" id="L57">        list = (ArrayList&lt;Filiere&gt;)in.readObject() ;</span>
+<span class="fc" id="L58">        return list;</span>
+<span class="nc" id="L59">    } catch (Exception e) {</span>
+<span class="nc" id="L60">        return list ;</span>
+    }
+}
+/***
+ * 
+ * @param cf
+ * @return ArrayList&lt;Etudiant&gt;
+ */
+public ArrayList&lt;Etudiant&gt; getEtudiants(int cf)
+{
+<span class="fc" id="L70">	ArrayList&lt;Etudiant&gt; list = new ArrayList();</span>
+    try {
+<span class="fc" id="L72">        out.println(cf);</span>
+<span class="fc" id="L73">        list = (ArrayList&lt;Etudiant&gt;)in.readObject() ;</span>
+<span class="fc" id="L74">        return list ;</span>
+<span class="nc" id="L75">    } catch (Exception e) {</span>
+<span class="nc" id="L76">        return list ;</span>
+    }
+}
+  
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span>testserveur (20 avr. 2022 01:46:53)</div></body></html>
